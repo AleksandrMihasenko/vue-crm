@@ -7,20 +7,20 @@
 </template>
 
 <script>
-import AuthLayout from "@/layouts/AuthLayout"
-import MainLayout from "@/layouts/MainLayout"
+import AuthLayout from "@/layouts/AuthLayout";
+import MainLayout from "@/layouts/MainLayout";
 
 export default {
   computed: {
     layout() {
-      return (this.$route.meta.layout || 'auth') + '-layout';
+      return (this.$route.meta.layout || "auth") + "-layout";
     }
   },
   components: {
     AuthLayout,
     MainLayout
   }
-}
+};
 </script>
 
 <style lang="scss">
