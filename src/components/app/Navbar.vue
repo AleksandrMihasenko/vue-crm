@@ -5,7 +5,7 @@
         <a href="#" v-on:click.prevent="$emit('click')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ date }}</span>
+        <span class="black-text">{{ dateFilter("date time") }}</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
@@ -53,6 +53,21 @@ export default {
     logout() {
       console.log("Logout");
       this.$router.push("/login?message=logout");
+    },
+    dateFilter(value, format = "date") {
+      value = this.date;
+      const options = {};
+      if (format.includes("date")) {
+        options.day = "2-digit";
+        options.month = "long";
+        options.year = "numeric";
+      }
+      if (format.includes("time")) {
+        options.hour = "2-digit";
+        options.minute = "2-digit";
+        options.seconds = "2-digit";
+      }
+      return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
     }
   },
   mounted() {
