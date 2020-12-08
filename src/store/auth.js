@@ -4,13 +4,32 @@ export default {
   actions: {
     // eslint-disable-next-line no-unused-vars
     async login({ dispatch, commit }, { email, password }) {
-      // eslint-disable-next-line no-useless-catch
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
-        // eslint-disable-next-line no-empty
       } catch (error) {
+        console.log(error);
         throw error;
       }
+    },
+    async register({ dispatch }, { email, password, name }) {
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const uid = await dispatch("getUid");
+        await firebase.database().ref(`/users/${uid}/info/`).set({
+            bill: 10000,
+            name
+          });
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    getUid() {
+      const user = firebase.auth().currentUser;
+      return user ? user.uid : null;
+    },
+    async logout() {
+      await firebase.auth().signOut();
     }
   }
-}
+};
