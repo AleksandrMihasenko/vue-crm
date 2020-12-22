@@ -7,9 +7,11 @@
         <i class="material-icons">refresh</i>
       </button>
     </div>
+    
+    <Loader v-if="loading"></Loader>
 
-    <div class="row">
-      <HomeBill></HomeBill>
+    <div v-else class="row">
+      <HomeBill v-bind:rates="currency.rates"></HomeBill>
       <HomeCurrency></HomeCurrency>
     </div>
   </div>
@@ -21,6 +23,15 @@ import HomeCurrency from "@/components/HomeCurrency";
 
 export default {
   name: "Home",
+  data: () => ({
+    loading: true,
+    currency: null
+  }),
+  async mounted() {
+    this.currency = await this.$store.dispatch("fetchCurrency");
+    console.log(this.currency);
+    this.loading = false;
+  },
   components: {
     HomeBill, HomeCurrency
   }
