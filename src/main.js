@@ -10,11 +10,13 @@ import "./registerServiceWorker";
 import firebase from "firebase";
 import "firebase/auth";
 import "firebase/database";
+import currencyFilter from "@/filters/currency.filter";
 
 Vue.config.productionTip = false;
 
 Vue.use(messagePlugin);
 Vue.use(Vuelidate);
+Vue.filter("currency", currencyFilter);
 Vue.component("Loader", Loader);
 
 let app;
