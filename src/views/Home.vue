@@ -12,7 +12,7 @@
 
     <div v-else class="row">
       <HomeBill v-bind:rates="currency.rates"></HomeBill>
-      <HomeCurrency></HomeCurrency>
+      <HomeCurrency v-bind:rates="currency.rates" v-bind:date="currency.date"></HomeCurrency>
     </div>
   </div>
 </template>
