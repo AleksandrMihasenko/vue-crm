@@ -7,7 +7,7 @@
       <Loader v-if="loading"></Loader>
       <div v-else class="row">
         <CategoryCreate v-on:created="addNewCategory"></CategoryCreate>
-        <CategoryEdit></CategoryEdit>
+        <CategoryEdit v-bind:categories="categories"></CategoryEdit>
       </div>
     </section>
   </div>
@@ -25,7 +25,6 @@ export default {
   }),
   async mounted() {
     this.categories = await this.$store.dispatch("fetchCategories");
-    console.log(this.categories);
     this.loading = false;
   },
   components: {
