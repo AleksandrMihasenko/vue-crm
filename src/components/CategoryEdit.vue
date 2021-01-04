@@ -5,7 +5,7 @@
         <h4>Редактировать</h4>
       </div>
 
-      <form>
+      <form v-on:submit.prevent="submitHandler">
         <div class="input-field" >
           <select ref="select" v-model="current">
             <option v-for="category of categories" v-bind:key="category.id" v-bind:value="category.id">{{ category.title }}</option>
@@ -61,6 +61,26 @@ export default {
     limit: 100,
     current: null
   }),
+  methods: {
+    async submitHandler() {
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return ;
+      }
+      try {
+        const categoryData = {
+          id: this.current,
+          title: this.title,
+          limit: this.limit
+        };
+        await this.$store.dispatch("updateCategory", categoryData);
+        this.$message("Категория обновлена");
+        this.$emit("updated", categoryData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  },
   validations: {
     title: { required },
     limit: { minValue: minValue(100) }
