@@ -4,35 +4,31 @@
       <h3>Новая запись</h3>
     </div>
 
-    <form class="form">
+    <Loader v-if="loading"></Loader>
+
+    <p v-else-if="!categories.length" class="center">
+      Категорий нет.
+      <router-link to="/categories">Добавить категорию</router-link>
+    </p>
+
+    <form v-else class="form">
       <div class="input-field" >
-        <select>
-          <option
-          >name cat</option>
+        <select ref="select" v-model="category">
+          <option v-for="category of categories" v-bind:key="category.id" v-bind:value="category.id">{{ category.title }}</option>
         </select>
         <label>Выберите категорию</label>
       </div>
 
       <p>
         <label>
-          <input
-            class="with-gap"
-            name="type"
-            type="radio"
-            value="income"
-          />
+          <input class="with-gap" name="type" type="radio" value="income" />
           <span>Доход</span>
         </label>
       </p>
 
       <p>
         <label>
-          <input
-            class="with-gap"
-            name="type"
-            type="radio"
-            value="outcome"
-          />
+          <input class="with-gap" name="type" type="radio" value="outcome" />
           <span>Расход</span>
         </label>
       </p>
@@ -66,10 +62,34 @@
 
 <script>
 export default {
-  name: "Record"
-}
+  name: "Record",
+  data: () => ({
+    loading: true,
+    select: null,
+    categories: [],
+    category: null
+  }),
+  async mounted() {
+    this.categories = await this.$store.dispatch("fetchCategories");
+    this.loading = false;
+
+    if (this.categories) {
+      this.category = this.categories[0].id;
+    }
+
+    setTimeout(() => {
+      // eslint-disable-next-line no-undef
+      this.select = M.FormSelect.init(this.$refs.select);
+    }, 0);
+  },
+  destroyed() {
+    if (this.select && this.select.destroy) {
+      this.select.destroy();
+    }
+  }
+};
 </script>
 
-<style scoped>
+<style>
 
 </style>
