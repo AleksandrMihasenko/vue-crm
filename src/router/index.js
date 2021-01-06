@@ -57,7 +57,7 @@ const router = new VueRouter({
       component: () => import("../views/Planning.vue")
     },
     {
-      path: "/detail",
+      path: "/detail/:id",
       name: "detail",
       meta: { layout: "main", auth: true },
       component: () => import("../views/Detail.vue")
