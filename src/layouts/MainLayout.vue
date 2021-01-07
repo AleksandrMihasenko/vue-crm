@@ -3,7 +3,7 @@
   <div v-else>
     <div class="app-main-layout">
       <Navbar v-on:click="isOpen = !isOpen"></Navbar>
-      <Sidebar v-model="isOpen"></Sidebar>
+      <Sidebar v-model="isOpen" v-bind:key="locale"></Sidebar>
       <main class="app-content" v-bind:class="{ full: !isOpen }">
         <div class="app-page">
           <router-view></router-view>
@@ -43,9 +43,15 @@ export default {
   computed: {
     error() {
       return this.$store.getters.error;
+    },
+    locale() {
+      return this.$store.getters.info.locale;
     }
   },
   watch: {
+    // locale() {
+    //   console.log("update menu");
+    // },
     error(fbError) {
       this.$error(messages[fbError.code] || "Попробуйте еще раз");
     }
